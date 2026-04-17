@@ -11,3 +11,5 @@ Bantuan:http://127.0.0.1:8000/bantuan
 https://eventamikom-3340-main-z5mapu.free.laravel.cloud/
 
 # Link tugas 2
+
+https://eventamikom-3340-main-z5mapu.free.laravel.cloud/

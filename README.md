@@ -4,10 +4,10 @@ Ivan Bagaskara
 
 # Link Tugas 1
 
-kontak: http://127.0.0.1:8000/kontak
-profil: http://127.0.0.1:8000/profile
-katalog:http://127.0.0.1:8000/katalog
-Bantuan:http://127.0.0.1:8000/bantuan
+kontak: https://eventamikom-3340-main-z5mapu.free.laravel.cloud/kontak
+profil: https://eventamikom-3340-main-z5mapu.free.laravel.cloud/profil
+katalog:https://eventamikom-3340-main-z5mapu.free.laravel.cloud/katalog
+Bantuan:https://eventamikom-3340-main-z5mapu.free.laravel.cloud/bantuan
 https://eventamikom-3340-main-z5mapu.free.laravel.cloud/
 
 # Link tugas 2

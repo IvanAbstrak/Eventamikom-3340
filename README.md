@@ -13,3 +13,7 @@ https://eventamikom-3340-main-z5mapu.free.laravel.cloud/
 # Link tugas 2
 
 https://eventamikom-3340-main-z5mapu.free.laravel.cloud/
+
+# Tugas 3
+
+Menambahkan Database Migration Seeding

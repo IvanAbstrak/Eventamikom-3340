@@ -5,6 +5,7 @@ use App\http\Controllers\Homecontroller;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\Admin\DashboardController;
 use Symfony\Contracts\EventDispatcher\Event;
+use App\Http\Controllers\Admin\EventController as EventAdminController;
 
 // Rute User Area
 Route::get('/', [Homecontroller::class, 'index'])->name('home');
@@ -41,4 +42,7 @@ Route::get('/bantuan', function () {
     return view('bantuan');
 });
 
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::resource('events', EventAdminController::class);
+});
 

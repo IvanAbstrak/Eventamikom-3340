@@ -153,4 +153,36 @@
         </div>
     </section>
 
+    <section class="py-16 bg-slate-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-extrabold text-slate-900 sm:text-4xl">Kategori Event</h2>
+            <p class="mt-4 text-lg text-slate-500">Temukan event berdasarkan minat Anda.</p>
+        </div>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+            @foreach($categories as $category)
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 text-center hover:shadow-md transition">
+                <h3 class="font-bold text-slate-800">{{ $category->name }}</h3>
+            </div>
+            @endforeach
+        </div>
+    </div>
+</section>
+
+<section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-extrabold text-slate-900 sm:text-4xl">Partner Strategis Kami</h2>
+            <p class="mt-4 text-lg text-slate-500">Didukung oleh institusi terbaik.</p>
+        </div>
+        <div class="flex flex-wrap justify-center items-center gap-8 md:gap-16">
+            @foreach($partners as $partner)
+            <div class="flex flex-col items-center">
+                <img src="{{ $partner->logo_url }}" alt="{{ $partner->name }}" class="h-16 md:h-20 object-contain grayscale hover:grayscale-0 transition duration-300">
+                <span class="mt-2 text-sm font-medium text-slate-500">{{ $partner->name }}</span>
+            </div>
+            @endforeach
+        </div>
+    </div>
+</section>
 @endsection

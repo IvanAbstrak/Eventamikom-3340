@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EventController as EventAdminController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\PartnerController;
+use App\Http\Controllers\CheckoutController;
 
 // Rute Publik / Pengunjung (Soal 4 akan dieksekusi di HomeController)
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -18,7 +19,11 @@ Route::get('/katalog', function () { return view('katalog'); });
 Route::get('/bantuan', function () { return view('bantuan'); });
 
 Route::get('/event/{id}', [EventController::class, 'show'])->name('events.show');
-Route::get('/checkout', [EventController::class, 'checkout'])->name('checkout');
+
+// Rute Checkout Publik (Diperbarui untuk Pertemuan 10)
+Route::get('/checkout/{event}', [App\Http\Controllers\CheckoutController::class, 'create'])->name('checkout.create');
+Route::post('/checkout/{event}', [App\Http\Controllers\CheckoutController::class, 'store'])->name('checkout.store');
+
 Route::get('/my-ticket', [EventController::class, 'ticket'])->name('ticket');
 
 // Rute redirect login bawaan Laravel agar mengarah ke admin login
@@ -38,6 +43,13 @@ Route::prefix('admin')->name('admin.')->group(function() {
     Route::middleware(['auth', 'admin'])->group(function () {
         Route::get('/', [DashboardController::class,'index'])->name('dashboard');
         Route::resource('events', EventAdminController::class);
+
+        // Tambahan Route untuk Laporan Transaksi Admin (Pertemuan 10)
+        Route::get('transactions', [App\Http\Controllers\Admin\TransactionController::class, 'index'])->name('transactions.index');
+        Route::get('/checkout/{event}', [CheckoutController::class, 'create'])->name('checkout.create');
+
+        // Route untuk memproses penyimpanan data checkout (biasanya untuk action form)
+        Route::post('/checkout/{event}', [CheckoutController::class, 'store'])->name('checkout.store');
 
         // Tambahan Route untuk UTS (Sekarang terlindungi oleh Middleware)
         Route::resource('categories', CategoryController::class);

@@ -25,3 +25,9 @@ https://eventamikom-3340-main-z5mapu.free.laravel.cloud/admin/events
 # Tugas 8
 
 https://eventamikom-3340-main-z5mapu.free.laravel.cloud/admin/login
+
+# Tugas 10
+
+https://eventamikom-3340-main-z5mapu.free.laravel.cloud/event-detail.html
+
+https://eventamikom-3340-main-z5mapu.free.laravel.cloud/checkout.html

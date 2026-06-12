@@ -21,3 +21,7 @@ Menambahkan Database Migration Seeding
 # Tugas 4
 
 https://eventamikom-3340-main-z5mapu.free.laravel.cloud/admin/events
+
+# Tugas 8
+
+https://eventamikom-3340-main-z5mapu.free.laravel.cloud/admin/login

@@ -9,8 +9,9 @@ use App\Http\Controllers\Admin\EventController as EventAdminController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\PartnerController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\MidtransWebhookController; // <-- Tambahkan ini di atas
 
-// Rute Publik / Pengunjung (Soal 4 akan dieksekusi di HomeController)
+// Rute Publik / Pengunjung
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/tentang', function () { return '<h1>Ini adalah Halaman Tentang Aplikasi Event Hub</h1>'; });
 Route::get('/kontak', function () { return view('contact'); });
@@ -20,7 +21,7 @@ Route::get('/bantuan', function () { return view('bantuan'); });
 
 Route::get('/event/{id}', [EventController::class, 'show'])->name('events.show');
 
-// Rute Checkout Publik (Diperbarui untuk Pertemuan 10)
+// Rute Checkout Publik
 Route::get('/checkout/{event}', [CheckoutController::class, 'create'])->name('checkout.create');
 Route::post('/checkout/{event}', [CheckoutController::class, 'store'])->name('checkout.store');
 
@@ -28,12 +29,17 @@ Route::get('/success/{order_id}', [CheckoutController::class, 'success'])->name(
 
 Route::get('/my-ticket', [EventController::class, 'ticket'])->name('ticket');
 
+// =============== LETAKKAN WEBHOOK MIDTRANS DI SINI ===============
+// Berada di luar grup admin agar bisa diakses bebas oleh server Midtrans
+Route::post('/midtrans/callback', [MidtransWebhookController::class, 'handle']);
+// =================================================================
+
 // Rute redirect login bawaan Laravel agar mengarah ke admin login
 Route::get('/login', function () {
     return redirect()->route('admin.login');
 })->name('login');
 
-// Rute Admin Area (Soal 1, 2, dan 3)
+// Rute Admin Area
 Route::prefix('admin')->name('admin.')->group(function() {
 
     // Rute Login bebas akses (di luar middleware)
@@ -46,17 +52,11 @@ Route::prefix('admin')->name('admin.')->group(function() {
         Route::get('/', [DashboardController::class,'index'])->name('dashboard');
         Route::resource('events', EventAdminController::class);
 
-        // Tambahan Route untuk Laporan Transaksi Admin (Pertemuan 10)
+        // Laporan Transaksi
         Route::get('transactions', [App\Http\Controllers\Admin\TransactionController::class, 'index'])->name('transactions.index');
 
-        // (Catatan: Rute checkout di bawah ini sepertinya duplikat dengan yang di atas,
-        // tapi saya biarkan sesuai kode asli Anda agar tidak mengubah alur aplikasi admin Anda)
-        Route::get('/checkout/{event}', [CheckoutController::class, 'create'])->name('checkout.create');
-        Route::post('/checkout/{event}', [CheckoutController::class, 'store'])->name('checkout.store');
-
-        // Tambahan Route untuk UTS (Sekarang terlindungi oleh Middleware)
+        // Route untuk kategori dan partner
         Route::resource('categories', CategoryController::class);
         Route::resource('partners', PartnerController::class);
     });
-    Route::post('/midtrans/callback', [\App\Http\Controllers\MidtransWebhookController::class, 'handle']);
 });

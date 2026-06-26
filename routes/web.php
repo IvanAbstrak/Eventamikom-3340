@@ -9,7 +9,7 @@ use App\Http\Controllers\Admin\EventController as EventAdminController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\PartnerController;
 use App\Http\Controllers\CheckoutController;
-use App\Http\Controllers\MidtransWebhookController; // <-- Tambahkan ini di atas
+use App\Http\Controllers\MidtransWebhookController;
 
 // Rute Publik / Pengunjung
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -19,19 +19,22 @@ Route::get('/profil', function () { return view('profil'); });
 Route::get('/katalog', function () { return view('katalog'); });
 Route::get('/bantuan', function () { return view('bantuan'); });
 
-Route::get('/event/{id}', [EventController::class, 'show'])->name('events.show');
+// Menggunakan {event} untuk Route Model Binding
+Route::get('/events/{event}', [EventController::class, 'show'])->name('events.show');
 
 // Rute Checkout Publik
 Route::get('/checkout/{event}', [CheckoutController::class, 'create'])->name('checkout.create');
 Route::post('/checkout/{event}', [CheckoutController::class, 'store'])->name('checkout.store');
 
+// Rute Halaman Pembayaran (DIPINDAH KE SINI AGAR BISA DIAKSES PUBLIK)
+Route::get('/payment/{order_id}', [CheckoutController::class, 'payment'])->name('checkout.payment');
 Route::get('/success/{order_id}', [CheckoutController::class, 'success'])->name('checkout.success');
 
 Route::get('/my-ticket', [EventController::class, 'ticket'])->name('ticket');
 
 // =============== LETAKKAN WEBHOOK MIDTRANS DI SINI ===============
 // Berada di luar grup admin agar bisa diakses bebas oleh server Midtrans
-Route::post('/midtrans/callback', [CheckoutController::class, 'callback']);
+Route::post('/midtrans/callback', [MidtransWebhookController::class, 'handle']);
 // =================================================================
 
 // Rute redirect login bawaan Laravel agar mengarah ke admin login

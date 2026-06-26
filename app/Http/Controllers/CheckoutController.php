@@ -34,7 +34,7 @@ class CheckoutController extends Controller
 
         // 4. Merekam Transaksi ke Database Lokal
         $transaction = Transaction::create([
-            'user_id' => auth()->id() ?? 1,
+            'user_id' => \Illuminate\Support\Facades\Auth::id() ?? 1,
             'event_id' => $event->id,
             'order_id' => $orderId,
             'customer_name' => $request->customer_name,

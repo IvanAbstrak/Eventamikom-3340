@@ -11,10 +11,17 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        // Pengecualian CSRF token untuk Callback Midtrans sesuai modul
+
+        // 1. Daftarkan alias 'admin' ke class AdminMiddleware Anda
+        $middleware->alias([
+            'admin' => \App\Http\Middleware\AdminMiddleware::class,
+        ]);
+
+        // 2. Pengecualian CSRF token untuk Callback Midtrans sesuai modul
         $middleware->validateCsrfTokens(except: [
             '/midtrans/callback',
         ]);
+
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

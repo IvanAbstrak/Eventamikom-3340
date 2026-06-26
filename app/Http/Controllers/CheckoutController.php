@@ -32,8 +32,8 @@ class CheckoutController extends Controller
         $orderId = 'TRX-' . time() . '-' . Str::random(5);
         $totalPrice = $event->price + 5000;
 
-        // 4. Merekam Transaksi ke Database
-        Transaction::create([
+        // 4. Merekam Transaksi ke Database Lokal
+        $transaction = Transaction::create([
             'event_id' => $event->id,
             'order_id' => $orderId,
             'customer_name' => $request->customer_name,
@@ -44,6 +44,38 @@ class CheckoutController extends Controller
         ]);
 
         $event->decrement('stock');
-        return redirect('/');
-    }
-}
+
+        // ==========================================
+        // 5. BAGIAN YANG TERLEWAT: REQUEST SNAP TOKEN
+        // ==========================================
+        \Midtrans\Config::$serverKey = config('midtrans.server_key');
+        \Midtrans\Config::$isProduction = config('midtrans.is_production');
+        \Midtrans\Config::$isSanitized = true;
+        \Midtrans\Config::$is3ds = true;
+
+        $params = [
+            'transaction_details' => [
+                'order_id' => $orderId,
+                'gross_amount' => $totalPrice,
+            ],
+            'customer_details' => [
+                'first_name' => $request->customer_name,
+                'email' => $request->customer_email,
+                'phone' => $request->customer_phone,
+            ],
+        ];
+
+        try {
+            // Meminta token pembayaran dari Midtrans
+            $snapToken = \Midtrans\Snap::getSnapToken($params);
+
+            // Melemparkan token ini ke halaman pembayaran (view baru yang akan kita buat)
+            return view('checkout.payment', compact('snapToken', 'transaction', 'event'));
+
+        } catch (\Exception $e) {
+            // Jika gagal terhubung ke Midtrans, kembalikan stok tiket dan batalkan pesanan
+            $event->increment('stock');
+            $transaction->delete();
+            return back()->with('error', 'Gagal memproses pembayaran: ' . $e->getMessage());
+        }
+    }}

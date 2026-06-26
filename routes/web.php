@@ -21,8 +21,10 @@ Route::get('/bantuan', function () { return view('bantuan'); });
 Route::get('/event/{id}', [EventController::class, 'show'])->name('events.show');
 
 // Rute Checkout Publik (Diperbarui untuk Pertemuan 10)
-Route::get('/checkout/{event}', [App\Http\Controllers\CheckoutController::class, 'create'])->name('checkout.create');
-Route::post('/checkout/{event}', [App\Http\Controllers\CheckoutController::class, 'store'])->name('checkout.store');
+Route::get('/checkout/{event}', [CheckoutController::class, 'create'])->name('checkout.create');
+Route::post('/checkout/{event}', [CheckoutController::class, 'store'])->name('checkout.store');
+
+Route::get('/success/{order_id}', [CheckoutController::class, 'success'])->name('checkout.success');
 
 Route::get('/my-ticket', [EventController::class, 'ticket'])->name('ticket');
 
@@ -46,13 +48,15 @@ Route::prefix('admin')->name('admin.')->group(function() {
 
         // Tambahan Route untuk Laporan Transaksi Admin (Pertemuan 10)
         Route::get('transactions', [App\Http\Controllers\Admin\TransactionController::class, 'index'])->name('transactions.index');
-        Route::get('/checkout/{event}', [CheckoutController::class, 'create'])->name('checkout.create');
 
-        // Route untuk memproses penyimpanan data checkout (biasanya untuk action form)
+        // (Catatan: Rute checkout di bawah ini sepertinya duplikat dengan yang di atas,
+        // tapi saya biarkan sesuai kode asli Anda agar tidak mengubah alur aplikasi admin Anda)
+        Route::get('/checkout/{event}', [CheckoutController::class, 'create'])->name('checkout.create');
         Route::post('/checkout/{event}', [CheckoutController::class, 'store'])->name('checkout.store');
 
         // Tambahan Route untuk UTS (Sekarang terlindungi oleh Middleware)
         Route::resource('categories', CategoryController::class);
         Route::resource('partners', PartnerController::class);
     });
+    Route::post('/midtrans/callback', [\App\Http\Controllers\MidtransWebhookController::class, 'handle']);
 });

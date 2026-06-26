@@ -31,7 +31,7 @@ Route::get('/my-ticket', [EventController::class, 'ticket'])->name('ticket');
 
 // =============== LETAKKAN WEBHOOK MIDTRANS DI SINI ===============
 // Berada di luar grup admin agar bisa diakses bebas oleh server Midtrans
-Route::post('/midtrans/callback', [MidtransWebhookController::class, 'handle']);
+Route::post('/midtrans/callback', [CheckoutController::class, 'callback']);
 // =================================================================
 
 // Rute redirect login bawaan Laravel agar mengarah ke admin login

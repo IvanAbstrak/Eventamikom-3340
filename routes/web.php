@@ -28,7 +28,7 @@ Route::post('/checkout/{event}', [CheckoutController::class, 'store'])->name('ch
 
 // Rute Halaman Pembayaran (DIPINDAH KE SINI AGAR BISA DIAKSES PUBLIK)
 Route::get('/payment/{order_id}', [CheckoutController::class, 'payment'])->name('checkout.payment');
-Route::get('/success/{order_id}', [CheckoutController::class, 'success'])->name('checkout.success');
+Route::get('/success', [CheckoutController::class, 'success'])->name('checkout.success');
 
 Route::get('/my-ticket', [EventController::class, 'ticket'])->name('ticket');
 

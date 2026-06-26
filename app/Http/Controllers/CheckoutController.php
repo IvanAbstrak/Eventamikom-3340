@@ -90,8 +90,9 @@ class CheckoutController extends Controller
         return view('checkout.payment', compact('transaction','categories'));
     } // [cite: 1907, 1909, 1910, 1911, 1912, 1913]
 
-    public function success($order_id)
+    public function success(Request $request)
     {
+        $order_id = $request->query('order_id');
         // Mengambil daftar kategori untuk keperluan menu footer
         $categories = \App\Models\Category::all();
 

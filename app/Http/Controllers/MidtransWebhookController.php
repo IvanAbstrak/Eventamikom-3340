@@ -10,7 +10,6 @@ class MidtransWebhookController extends Controller
     public function handle(Request $request)
     {
         $payload = $request->all();
-
         $orderId = $payload['order_id'] ?? null;
         $transactionStatus = $payload['transaction_status'] ?? null;
         $fraudStatus = $payload['fraud_status'] ?? null;
@@ -49,7 +48,6 @@ class MidtransWebhookController extends Controller
         }
 
         $transaction->save();
-
         return response()->json(['message' => 'OK']);
     }
 

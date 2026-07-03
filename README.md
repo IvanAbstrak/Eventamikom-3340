@@ -39,3 +39,7 @@ https://eventamikom-3340-main-z5mapu.free.laravel.cloud/events/1#
 https://eventamikom-3340-main-z5mapu.free.laravel.cloud/payment/TRX-1782478911-Eup2u
 
 https://eventamikom-3340-main-z5mapu.free.laravel.cloud/success?order_id=TRX-1782478911-Eup2u&status_code=200&transaction_status=settlement
+
+# Tugas 12
+
+https://eventamikom-3340-main-z5mapu.free.laravel.cloud/admin/transactions
